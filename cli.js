@@ -12,11 +12,13 @@ const cwd = process.cwd();
 
 // === Welcome Banner ===
 console.log(
-  chalk.cyan(
-    figlet.textSync("Elysia UI", { horizontalLayout: "default" })
+  chalk.cyan(figlet.textSync("Elysia UI", { horizontalLayout: "default" }))
+);
+console.log(
+  chalk.gray(
+    "🌸 Beautifully Component UI Made With Radix UI And Tailwind CSS 🦊\n"
   )
 );
-console.log(chalk.gray("🌸 Beautifully Component UI Made With Radix UI And Tailwind CSS 🦊\n"));
 
 const name = process.argv[2];
 if (!name) {
@@ -27,17 +29,32 @@ if (!name) {
   process.exit(1);
 }
 
+// === Detect Project Type ===
+const isTS = fs.existsSync(path.join(cwd, "tsconfig.json"));
+const ext = isTS ? "tsx" : "jsx";
+
+// nama component
 const compName = name.toLowerCase();
-const srcFile = path.join(__dirname, "src", "components", `${compName}.tsx`);
+
+// template source file (di lib kamu harus siapkan .tsx & .jsx)
+const srcFile = path.join(
+  __dirname,
+  "src",
+  "components",
+  `${compName}.${ext}`
+);
+
 const targetDir = path.join(cwd, "components");
 const targetFile = path.join(
   targetDir,
-  `${compName.charAt(0).toUpperCase() + compName.slice(1)}.tsx`
+  `${compName.charAt(0).toUpperCase() + compName.slice(1)}.${ext}`
 );
 
 // cek file template ada gak
 if (!fs.existsSync(srcFile)) {
-  console.log(chalk.red(`❌ Template for '${compName}' not found in src/components`));
+  console.log(
+    chalk.red(`❌ Template for '${compName}.${ext}' not found in src/components`)
+  );
   process.exit(1);
 }
 
@@ -83,13 +100,15 @@ const interval = setInterval(() => {
 
     table.push([
       chalk.green("✅"),
-      chalk.cyan(path.basename(targetFile, ".tsx")),
+      chalk.cyan(path.basename(targetFile, `.${ext}`)),
       chalk.gray(`components/${path.basename(targetFile)}`),
     ]);
 
     console.log(table.toString());
     console.log(
-      chalk.bold.green(`✨ Component ${compName} copied to your project!`)
+      chalk.bold.green(
+        `✨ Component ${compName} copied to your project as .${ext}!`
+      )
     );
   }
 }, 200);
