@@ -29,26 +29,8 @@ if (!name) {
   process.exit(1);
 }
 
-// === Detect Project Type ===
-const isTS = fs.existsSync(path.join(cwd, "tsconfig.json"));
-let ext = isTS ? "tsx" : "jsx";
-
-// nama component
-const compName = name.charAt(0).toUpperCase() + name.slice(1);
-
-// template source file (di lib kamu harus siapkan .tsx & .jsx)
-let srcFile = path.join(
-  __dirname,
-  "src",
-  "components",
-  `${compName}.${ext}`
-);
-if (!fs.existsSync(srcFile)) {
-  // fallback ke tsx
-  srcFile = path.join(__dirname, "src", "components", `${compName}.tsx`);
-  ext = "tsx";
-}
-
+const compName = name.toLowerCase();
+const srcFile = path.join(__dirname, "src", "components", `${compName}.tsx`);
 const targetDir = path.join(cwd, "components");
 const targetFile = path.join(
   targetDir,
