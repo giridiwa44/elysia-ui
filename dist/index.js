@@ -1,0 +1,2 @@
+import*as o from"react";import{Slot as l}from"@radix-ui/react-slot";import u from"clsx";import{jsx as s}from"react/jsx-runtime";var m=o.forwardRef(({className:e,asChild:r=!1,variant:t="default",...n},a)=>s(r?l:"button",{ref:a,className:u("px-4 py-2 rounded-lg text-sm font-medium transition-colors",t==="default"&&"bg-blue-600 text-white hover:bg-blue-700",t==="outline"&&"border border-gray-300 hover:bg-gray-100",e),...n}));m.displayName="Button";export{m as Button};
+//# sourceMappingURL=index.js.map
