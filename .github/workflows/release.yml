@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master   # workflow hanya jalan kalau push ke branch master
-
 permissions:
   contents: write       # supaya bisa bikin tag & update release
   issues: write         # kalau semantic-release update issue
