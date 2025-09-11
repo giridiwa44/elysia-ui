@@ -45,4 +45,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # default token dari GitHub
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # tambahkan manual di Settings > Secrets
-        run: npx semantic-release
