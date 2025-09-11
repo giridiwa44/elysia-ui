@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   release:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Checkout kode
@@ -25,6 +25,8 @@ jobs:
           node-version: 20
           registry-url: 'https://registry.npmjs.org/'
           always-auth: true   # wajib biar npm pakai token
+          cache: 'npm'
+
 
       # 3. Install dependencies
       - name: Install dependencies
