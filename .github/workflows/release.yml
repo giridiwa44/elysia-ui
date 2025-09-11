@@ -1,12 +1,12 @@
-name: Publish to npm
+name: Publish to npm and GitHub Release
 
 on:
   push:
     branches:
-      - main  # jalan kalau push ke main
+      - master   # hanya jalan kalau push ke main
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +25,16 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Publish package
+      - name: Publish package to npm
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Bikin GitHub Release (draft)
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
