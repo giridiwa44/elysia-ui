@@ -13,8 +13,11 @@
   "bin": {
     "elysia-ui": "./cli.js"
   },
-  "keywords": [],
-  "author": "",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": ["Beautifully, Generate Component"],
+  "author": "Giri Diwa Adam",
   "license": "ISC",
   "description": "",
   "dependencies": {
