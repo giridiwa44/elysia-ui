@@ -6,7 +6,7 @@
   "module": "dist/index.mjs",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsup build",
     "preview": "vite preview"
   },
   "type": "module",
