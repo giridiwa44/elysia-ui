@@ -29,6 +29,8 @@ if (!name) {
   process.exit(1);
 }
 
+let ext = "tsx";
+
 const compName = name.toLowerCase();
 const srcFile = path.join(__dirname, "src", "components", `${compName}.tsx`);
 const targetDir = path.join(cwd, "components");
