@@ -6,7 +6,7 @@
   "module": "dist/index.mjs",
   "scripts": {
     "dev": "vite",
-    "build":"tsup src/index.ts --format cjs,esm --dts",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "preview": "vite preview"
   },
   "type": "module",
@@ -16,8 +16,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Beautifully, Generate Component"],
+  "author": "Giri Diwa Adam",
   "license": "ISC",
   "description": "",
   "dependencies": {
