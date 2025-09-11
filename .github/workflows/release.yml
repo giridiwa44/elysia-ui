@@ -1,47 +1,31 @@
-name: Release Package
+name: Publish to npm
 
 on:
   push:
     branches:
-      - master   # workflow hanya jalan kalau push ke branch master
-permissions:
-  contents: write       # supaya bisa bikin tag & update release
-  issues: write         # kalau semantic-release update issue
-  pull-requests: write  # kalau semantic-release update PR
+      - main  # jalan kalau push ke main
 
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout kode
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: 'https://registry.npmjs.org/'
-          always-auth: true   # wajib biar npm pakai token
-          cache: 'npm'
 
-
-      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4. Build project (opsional kalau ada build step)
-      - name: Build project
-        run: npm run build --if-present
-      # 5. Jalankan Debug dulu
-      - name: Debug npm whoami
-        run: npm whoami --registry=https://registry.npmjs.org/
+      - name: Run tests
+        run: npm test
+
+      - name: Publish package
+        run: npm publish
         env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # 6. Baru Jalankan semantic-release
-      - name: Run semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # default token dari GitHub
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}       # tambahkan manual di Settings > Secrets
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
