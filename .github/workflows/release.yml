@@ -3,7 +3,9 @@ name: Publish to npm and GitHub Release
 on:
   push:
     branches:
-      - master   # hanya jalan kalau push ke main
+      - master   # hanya jalan kalau push ke master
+permissions:
+  contents: write
 
 jobs:
   release:
@@ -37,4 +39,4 @@ jobs:
           draft: true
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:  ${{ secrets.PAT_TOKEN }}
