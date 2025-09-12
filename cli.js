@@ -22,15 +22,55 @@ console.log(
 
 const name = process.argv[2];
 if (!name) {
-  console.log(chalk.red("❌ Please provide a component name"));
+  console.log(chalk.red("❌ Please provide a command or component name"));
   console.log(
-    chalk.yellow("Usage: ") + chalk.cyan("npx elysia-ui <ComponentName>")
+    chalk.yellow("Usage: ") +
+      chalk.cyan("npx elysia-ui <ComponentName>") +
+      chalk.gray(" or ") +
+      chalk.cyan("npx elysia-ui sync-theme")
   );
   process.exit(1);
 }
 
-let ext = "tsx";
+// === NEW: sync-theme command ===
+if (name === "sync-theme") {
+  const globalsPath = path.join(cwd, "src", "app", "globals.css");
+  const themeCssPath = path.join(
+    __dirname,
+    "src",
+    "lib",
+    "theme",
+    "global.css"
+  );
 
+  if (fs.existsSync(globalsPath) && fs.existsSync(themeCssPath)) {
+    const cssContent = fs.readFileSync(themeCssPath, "utf8");
+    const existingCss = fs.readFileSync(globalsPath, "utf8");
+
+    if (!existingCss.includes("/* elysia-ui theme */")) {
+      fs.appendFileSync(globalsPath, "\n" + cssContent);
+      console.log(
+        chalk.green(`🎨 Theme injected into ${chalk.cyan("globals.css")}`)
+      );
+    } else {
+      console.log(
+        chalk.yellow(
+          `⚠️ Theme already exists in ${chalk.cyan("globals.css")} (skipped)`
+        )
+      );
+    }
+  } else {
+    console.log(
+      chalk.red(
+        "❌ globals.css or theme file not found. Please check your Next.js project structure."
+      )
+    );
+  }
+  process.exit(0);
+}
+
+// === Default flow: generate component ===
+let ext = "tsx";
 const compName = name.toLowerCase();
 const srcFile = path.join(__dirname, "src", "components", `${compName}.tsx`);
 const targetDir = path.join(cwd, "components");
@@ -42,7 +82,9 @@ const targetFile = path.join(
 // cek file template ada gak
 if (!fs.existsSync(srcFile)) {
   console.log(
-    chalk.red(`❌ Template for '${compName}.${ext}' not found in src/components`)
+    chalk.red(
+      `❌ Template for '${compName}.${ext}' not found in src/components`
+    )
   );
   process.exit(1);
 }
@@ -99,5 +141,33 @@ const interval = setInterval(() => {
         `✨ Component ${compName} copied to your project as .${ext}!`
       )
     );
+
+    // inject theme otomatis saat generate juga
+    const globalsPath = path.join(cwd, "src", "app", "globals.css");
+    const themeCssPath = path.join(
+      __dirname,
+      "src",
+      "lib",
+      "theme",
+      "global.css"
+    );
+
+    if (fs.existsSync(globalsPath) && fs.existsSync(themeCssPath)) {
+      const cssContent = fs.readFileSync(themeCssPath, "utf8");
+      const existingCss = fs.readFileSync(globalsPath, "utf8");
+
+      if (!existingCss.includes("/* elysia-ui theme */")) {
+        fs.appendFileSync(globalsPath, "\n" + cssContent);
+        console.log(
+          chalk.green(`🎨 Theme injected into ${chalk.cyan("globals.css")}`)
+        );
+      } else {
+        console.log(
+          chalk.yellow(
+            `⚠️ Theme already exists in ${chalk.cyan("globals.css")} (skipped)`
+          )
+        );
+      }
+    }
   }
 }, 200);

@@ -1,0 +1,41 @@
+:root {
+  --color-primary-bg: #F4A9D8;
+  --color-primary-text: #4A2E4E;
+  --color-primary-hover: #E58AC7;
+
+  --color-secondary-bg: #C6A8F2;
+  --color-secondary-text: #2C2C34;
+  --color-secondary-hover: #AF8BE0;
+
+  --color-accent-bg: #A5D7F9;
+  --color-accent-text: #2C2C34;
+  --color-accent-hover: #7EC7F7;
+
+  --color-destructive-bg: #F87171;
+  --color-destructive-text: #FFFFFF;
+  --color-destructive-hover: #EF4444;
+
+  --color-outline: #D1D5DB; /* gray-300 */
+  --color-ghost: #6B7280;   /* gray-600 */
+}
+
+.dark {
+  --color-primary-bg: #E58AC7;
+  --color-primary-text: #EADCFB;
+  --color-primary-hover: #C86AAE;
+
+  --color-secondary-bg: #AF8BE0;
+  --color-secondary-text: #E1E1F6;
+  --color-secondary-hover: #9571C9;
+
+  --color-accent-bg: #7EC7F7;
+  --color-accent-text: #E1F4FE;
+  --color-accent-hover: #5EB5F0;
+
+  --color-destructive-bg: #EF4444;
+  --color-destructive-text: #FECACA;
+  --color-destructive-hover: #DC2626;
+
+  --color-outline: #374151; /* gray-700 */
+  --color-ghost: #9CA3AF;   /* gray-400 */
+}
