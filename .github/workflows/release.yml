@@ -29,7 +29,19 @@ jobs:
         run: npm test
 
       - name: Publish package to npm
-        run: npm publish
+        if: github.ref == 'refs/heads/master'
+        run: |
+          npm version patch
+          npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+        # Untuk beta → publish beta
+      - name: Publish to npm (beta)
+        if: github.ref == 'refs/heads/beta'
+        run: |
+          npm version prerelease --preid=beta
+          npm publish --tag beta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
