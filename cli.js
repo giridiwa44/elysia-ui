@@ -10,6 +10,20 @@ import cliProgress from "cli-progress";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 
+// === helper: cari globals.css ===
+function findGlobalsCss() {
+  const candidates = [
+    path.join(cwd, "app", "globals.css"),
+    path.join(cwd, "src", "app", "globals.css"),
+    path.join(cwd, "globals.css"),
+  ];
+
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
+
 // === Welcome Banner ===
 console.log(
   chalk.cyan(figlet.textSync("Elysia UI", { horizontalLayout: "default" }))
@@ -34,7 +48,7 @@ if (!name) {
 
 // === NEW: sync-theme command ===
 if (name === "sync-theme") {
-  const globalsPath = path.join(cwd, "src", "app", "globals.css");
+  const globalsPath = findGlobalsCss();
   const themeCssPath = path.join(
     __dirname,
     "src",
@@ -43,19 +57,25 @@ if (name === "sync-theme") {
     "global.css"
   );
 
-  if (fs.existsSync(globalsPath) && fs.existsSync(themeCssPath)) {
+  if (globalsPath && fs.existsSync(themeCssPath)) {
     const cssContent = fs.readFileSync(themeCssPath, "utf8");
     const existingCss = fs.readFileSync(globalsPath, "utf8");
 
     if (!existingCss.includes("/* elysia-ui theme */")) {
       fs.appendFileSync(globalsPath, "\n" + cssContent);
       console.log(
-        chalk.green(`🎨 Theme injected into ${chalk.cyan("globals.css")}`)
+        chalk.green(
+          `🎨 Theme injected into ${chalk.cyan(
+            path.relative(cwd, globalsPath)
+          )}`
+        )
       );
     } else {
       console.log(
         chalk.yellow(
-          `⚠️ Theme already exists in ${chalk.cyan("globals.css")} (skipped)`
+          `⚠️ Theme already exists in ${chalk.cyan(
+            path.relative(cwd, globalsPath)
+          )} (skipped)`
         )
       );
     }
@@ -143,7 +163,7 @@ const interval = setInterval(() => {
     );
 
     // inject theme otomatis saat generate juga
-    const globalsPath = path.join(cwd, "src", "app", "globals.css");
+    const globalsPath = findGlobalsCss();
     const themeCssPath = path.join(
       __dirname,
       "src",
@@ -152,19 +172,25 @@ const interval = setInterval(() => {
       "global.css"
     );
 
-    if (fs.existsSync(globalsPath) && fs.existsSync(themeCssPath)) {
+    if (globalsPath && fs.existsSync(themeCssPath)) {
       const cssContent = fs.readFileSync(themeCssPath, "utf8");
       const existingCss = fs.readFileSync(globalsPath, "utf8");
 
       if (!existingCss.includes("/* elysia-ui theme */")) {
         fs.appendFileSync(globalsPath, "\n" + cssContent);
         console.log(
-          chalk.green(`🎨 Theme injected into ${chalk.cyan("globals.css")}`)
+          chalk.green(
+            `🎨 Theme injected into ${chalk.cyan(
+              path.relative(cwd, globalsPath)
+            )}`
+          )
         );
       } else {
         console.log(
           chalk.yellow(
-            `⚠️ Theme already exists in ${chalk.cyan("globals.css")} (skipped)`
+            `⚠️ Theme already exists in ${chalk.cyan(
+              path.relative(cwd, globalsPath)
+            )} (skipped)`
           )
         );
       }
