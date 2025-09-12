@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master   # hanya jalan kalau push ke master
+      - beta     # untuk update yang sedang di kerjakan sebelum release fix
 permissions:
   contents: write
 
