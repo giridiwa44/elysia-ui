@@ -28,6 +28,13 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # Inisialisasi dulu User Githubnya
+      - name: Setup Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      # Publish Package Kalau memang Fix
       - name: Publish package to npm
         if: github.ref == 'refs/heads/master'
         run: |
