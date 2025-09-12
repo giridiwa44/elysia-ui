@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master   # hanya jalan kalau push ke master
+      - beta     # untuk update yang sedang di kerjakan sebelum release fix
 permissions:
   contents: write
 
@@ -27,8 +28,27 @@ jobs:
       - name: Run tests
         run: npm test
 
+      # Inisialisasi dulu User Githubnya
+      - name: Setup Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      # Publish Package Kalau memang Fix
       - name: Publish package to npm
-        run: npm publish
+        if: github.ref == 'refs/heads/master'
+        run: |
+          npm version patch
+          npm publish --tag latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+        # Untuk beta → publish beta
+      - name: Publish to npm (beta)
+        if: github.ref == 'refs/heads/beta'
+        run: |
+          npm version prerelease --preid=beta
+          npm publish --tag beta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
